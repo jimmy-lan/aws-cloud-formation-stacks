@@ -5,6 +5,10 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: >-
   A simple stack that creates a VPC that spans two availability zones. Two public subnets
   and two private subnets will be provisioned in this VPC.
+Metadata:
+  Author: Jimmy Lan
+  Version: "2022-07-31"
+  Purpose: "VPC baseline"
 Parameters:
   VpcName:
     Type: String
