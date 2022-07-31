@@ -102,4 +102,15 @@ Resources:
           Value: !Ref "AWS::StackName"
         - Key: "Name"
           Value: !If ["UsePublic1Name", !Ref PublicSubnet1Name, !Ref "AWS::NoValue"]
-
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Join ["", [!Ref "AWS::Region", !Select ["0", !Ref VpcSubnetAzs]]]
+      CidrBlock: !Ref PrivateSubnet1Cidr
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !If ["UsePrivate1Name", !Ref PrivateSubnet1Name, !Ref "AWS::NoValue"]
