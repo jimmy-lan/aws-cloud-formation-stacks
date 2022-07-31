@@ -3,8 +3,8 @@
 # be hard-coded into this stack, modification when reuse is highly encouraged.
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >-
-  A simple stack that creates a VPC and some subnets. Some values may
-  be hard-coded into this stack, modification when reuse is highly encouraged.
+  A simple stack that creates a VPC that spans two availability zones. Two public subnets
+  and two private subnets will be provisioned in this VPC.
 Parameters:
   VpcCidr:
     Type: String
