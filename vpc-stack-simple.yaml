@@ -291,7 +291,7 @@ Resources:
           Value: !Ref "AWS::StackName"
   NatGatewaySingleRoute:
     Type: AWS::EC2::Route
-    Condition: UseOnePrivateRT
+    Condition: UseNatGateway
     DependsOn: Public1NatGateway
     Properties:
       RouteTableId: !Ref PrivateRouteTable
