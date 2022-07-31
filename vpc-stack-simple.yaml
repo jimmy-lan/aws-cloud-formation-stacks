@@ -138,3 +138,9 @@ Resources:
           Value: !Ref "AWS::StackName"
         - Key: "Name"
           Value: !If [ "UsePrivate2Name", !Ref PrivateSubnet2Name, !Ref "AWS::NoValue" ]
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
