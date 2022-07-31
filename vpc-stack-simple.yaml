@@ -226,7 +226,7 @@ Resources:
   Public2RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref PublicSubnet1
+      SubnetId: !Ref PublicSubnet2
       RouteTableId: !Ref PublicRouteTable
   Private1RTSingleAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -238,9 +238,20 @@ Resources:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Condition: UseOnePrivateRT
     Properties:
-      SubnetId: !Ref PublicSubnet1
+      SubnetId: !Ref PrivateSubnet2
       RouteTableId: !Ref PrivateRouteTable
-
+  Private1RTMultiAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: UseMultiPrivateRT
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref Private1RouteTable
+  Private2RTMultiAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: UseMultiPrivateRT
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref Private2RouteTable
 
   # NAT gateway
   Public1NatGatewayIp:
