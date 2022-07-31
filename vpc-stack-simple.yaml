@@ -260,9 +260,6 @@ Resources:
     Condition: UseNatGateway
     Properties:
       Domain: "vpc"
-      Tags:
-        - Key: "Stack"
-          Value: !Ref "AWS::StackName"
   Public1NatGateway:
     Type: AWS::EC2::NatGateway
     Condition: UseNatGateway
@@ -270,6 +267,9 @@ Resources:
     Properties:
       SubnetId: !Ref PublicSubnet1
       AllocationId: !Ref Public1NatGatewayIp
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
   Public2NatGatewayIp:
     Type: AWS::EC2::EIP
     DependsOn: Vpc
@@ -286,3 +286,6 @@ Resources:
     Properties:
       SubnetId: !Ref PublicSubnet1
       AllocationId: !Ref Public1NatGatewayIp
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
