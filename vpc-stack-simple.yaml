@@ -77,6 +77,15 @@ Parameters:
     Description: >-
       *(Required) Determine whether one or more NAT gateway(s) should be provisioned for your VPC.
       Select "true" if NAT gateways should be provisioned.
+  ShouldProvisionHANat:
+    Type: String
+    Default: "false"
+    AllowedValues:
+      - "true"
+      - "false"
+    Description: >-
+      *(Required) When set to "true", one NAT gateway will be provisioned for every availability zone included
+      in this VPC.
 Conditions:
   UseVpcName: !Not [!Equals [!Ref VpcName, ""]]
   UsePublic1Name: !Not [!Equals [!Ref PublicSubnet1Name, ""]]
@@ -205,3 +214,20 @@ Resources:
     Properties:
       SubnetId: !Ref PublicSubnet1
       RouteTableId: !Ref PrivateRouteTable
+
+  # NAT gateway
+  Public1NatGatewayIp:
+    Type: AWS::EC2::EIP
+    DependsOn: Vpc
+    Condition: UseNatGateway
+    Properties:
+      Domain: "vpc"
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+  Public1NatGateway:
+    Type: AWS::EC2::NatGateway
+    Condition: UseNatGateway
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      AllocationId: !Ref Public1NatGatewayIp
