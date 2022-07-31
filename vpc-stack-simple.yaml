@@ -101,8 +101,8 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref VpcCidr
-      EnableDnsHostnames: true,
-      EnableDnsSupport: true,
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
       InstanceTenancy: !Ref VpcInstanceTenancy
       Tags:
         - Key: "Stack"
