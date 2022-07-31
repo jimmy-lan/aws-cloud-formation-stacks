@@ -1,0 +1,3 @@
+# Date: July 31, 2022
+# Description: A simple stack that creates a VPC and some subnets. Some values may
+# be hard-coded into this stack, modification when reuse is highly encouraged.
