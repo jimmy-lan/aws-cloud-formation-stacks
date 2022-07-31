@@ -292,6 +292,7 @@ Resources:
   NatGatewaySingleRoute:
     Type: AWS::EC2::Route
     Condition: UseOnePrivateRT
+    DependsOn: Public1NatGateway
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
@@ -299,6 +300,7 @@ Resources:
   NatGatewayMultiRoutePrivate1:
     Type: AWS::EC2::Route
     Condition: UseMultiPrivateRT
+    DependsOn: Public1NatGateway
     Properties:
       RouteTableId: !Ref Private1RouteTable
       DestinationCidrBlock: 0.0.0.0/0
@@ -306,6 +308,7 @@ Resources:
   NatGatewayMultiRoutePrivate2:
     Type: AWS::EC2::Route
     Condition: UseMultiPrivateRT
+    DependsOn: Public2NatGateway
     Properties:
       RouteTableId: !Ref Private2RouteTable
       DestinationCidrBlock: 0.0.0.0/0
