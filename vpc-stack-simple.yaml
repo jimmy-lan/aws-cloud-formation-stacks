@@ -94,6 +94,8 @@ Conditions:
   UsePrivate2Name: !Not [!Equals [!Ref PrivateSubnet2Name, ""]]
   UseNatGateway: !Equals [!Ref ShouldProvisionNatGateway, "true"]
   UseHANatGatewayConfig: !Equals [!Ref ShouldConfigureHANatGateway, "true"]
+  UseMultiPrivateRT: !And [!Condition UseNatGateway, !Condition UseHANatGatewayConfig]
+  UseOnePrivateRT: !Not [!Condition UseMultiPrivateRT]
 Resources:
   Vpc:
     Type: AWS::EC2::VPC
@@ -178,15 +180,6 @@ Resources:
           Value: !Ref "AWS::StackName"
         - Key: "Name"
           Value: !Join ["-", ["Public RT", !Ref "AWS::StackId"]]
-  PrivateRouteTable:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref Vpc
-      Tags:
-        - Key: "Stack"
-          Value: !Ref "AWS::StackName"
-        - Key: "Name"
-          Value: !Join ["-", ["Private RT", !Ref "AWS::StackId"]]
   IGWRoute:
     Type: AWS::EC2::Route
     DependsOn: InternetGateway
@@ -194,6 +187,36 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Condition: UseOnePrivateRT
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !Join [ "-", [ "Private RT", !Ref "AWS::StackId" ] ]
+  Private1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Condition: UseMultiPrivateRT
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !Join [ "-", [ "Private RT AZ1", !Ref "AWS::StackId" ] ]
+  Private2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Condition: UseMultiPrivateRT
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !Join [ "-", [ "Private RT AZ1", !Ref "AWS::StackId" ] ]
 
   Public1RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -227,6 +250,21 @@ Resources:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
   Public1NatGateway:
+    Type: AWS::EC2::NatGateway
+    Condition: UseNatGateway
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      AllocationId: !Ref Public1NatGatewayIp
+  Public2NatGatewayIp:
+    Type: AWS::EC2::EIP
+    DependsOn: Vpc
+    Condition: UseNatGateway
+    Properties:
+      Domain: "vpc"
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+  Public2NatGateway:
     Type: AWS::EC2::NatGateway
     Condition: UseNatGateway
     Properties:
