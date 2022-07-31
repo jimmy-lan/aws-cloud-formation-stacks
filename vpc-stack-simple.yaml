@@ -77,7 +77,7 @@ Parameters:
     Description: >-
       *(Required) Determine whether one or more NAT gateway(s) should be provisioned for your VPC.
       Select "true" if NAT gateways should be provisioned.
-  ShouldProvisionHANat:
+  ShouldConfigureHANatGateway:
     Type: String
     Default: "false"
     AllowedValues:
@@ -93,6 +93,7 @@ Conditions:
   UsePrivate1Name: !Not [!Equals [!Ref PrivateSubnet1Name, ""]]
   UsePrivate2Name: !Not [!Equals [!Ref PrivateSubnet2Name, ""]]
   UseNatGateway: !Equals [!Ref ShouldProvisionNatGateway, "true"]
+  UseHANatGatewayConfig: !Equals [!Ref ShouldConfigureHANatGateway, "true"]
 Resources:
   Vpc:
     Type: AWS::EC2::VPC
