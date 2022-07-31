@@ -90,6 +90,7 @@ Resources:
           Value: !Ref "AWS::StackName"
         - Key: "Name"
           Value: !If ["UseVpcName", !Ref VpcName, !Ref "AWS::NoValue"]
+
   PublicSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -138,9 +139,51 @@ Resources:
           Value: !Ref "AWS::StackName"
         - Key: "Name"
           Value: !If [ "UsePrivate2Name", !Ref PrivateSubnet2Name, !Ref "AWS::NoValue" ]
+
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !Join ["-", ["Public RT", !Ref "AWS::StackId"]]
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: "Stack"
+          Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !Join ["-", ["Private RT", !Ref "AWS::StackId"]]
+  IGWRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Public1RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+  Public2RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
