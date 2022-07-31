@@ -266,6 +266,7 @@ Resources:
   Public1NatGateway:
     Type: AWS::EC2::NatGateway
     Condition: UseNatGateway
+    DependsOn: Public1NatGatewayIp
     Properties:
       SubnetId: !Ref PublicSubnet1
       AllocationId: !Ref Public1NatGatewayIp
@@ -281,6 +282,7 @@ Resources:
   Public2NatGateway:
     Type: AWS::EC2::NatGateway
     Condition: UseNatGateway
+    DependsOn: Public2NatGatewayIp
     Properties:
       SubnetId: !Ref PublicSubnet1
       AllocationId: !Ref Public1NatGatewayIp
