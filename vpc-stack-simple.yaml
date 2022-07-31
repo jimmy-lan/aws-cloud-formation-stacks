@@ -23,4 +23,7 @@ Resources:
       CidrBlock: !Ref VpcCidr
       EnableDnsHostnames: true,
       EnableDnsSupport: true,
-      InstanceTenancy: "default"
+      InstanceTenancy: !Ref VpcInstanceTenancy
+      Tags:
+        - Key: "stack"
+          Value: "vpc-stack-simple"
