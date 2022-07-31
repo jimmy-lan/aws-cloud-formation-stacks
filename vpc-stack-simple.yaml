@@ -273,7 +273,7 @@ Resources:
   Public2NatGatewayIp:
     Type: AWS::EC2::EIP
     DependsOn: Vpc
-    Condition: UseNatGateway
+    Condition: UseMultiPrivateRT
     Properties:
       Domain: "vpc"
       Tags:
@@ -281,7 +281,7 @@ Resources:
           Value: !Ref "AWS::StackName"
   Public2NatGateway:
     Type: AWS::EC2::NatGateway
-    Condition: UseNatGateway
+    Condition: UseMultiPrivateRT
     DependsOn: Public2NatGatewayIp
     Properties:
       SubnetId: !Ref PublicSubnet1
@@ -289,3 +289,10 @@ Resources:
       Tags:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
+  NatGatewaySingleRoute:
+    Type: AWS::EC2::Route
+    Condition: UseOnePrivateRT
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref Public1NatGateway
