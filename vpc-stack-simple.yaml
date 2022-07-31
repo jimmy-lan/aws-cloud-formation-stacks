@@ -230,11 +230,13 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
   Private1RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: UseOnePrivateRT
     Properties:
       SubnetId: !Ref PrivateSubnet1
       RouteTableId: !Ref PrivateRouteTable
   Private2RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: UseOnePrivateRT
     Properties:
       SubnetId: !Ref PublicSubnet1
       RouteTableId: !Ref PrivateRouteTable
