@@ -85,7 +85,7 @@ Parameters:
       - "false"
     Description: >-
       *(Required) When set to "true", one NAT gateway will be provisioned for every availability zone included
-      in this VPC.
+      in this VPC. Note: This configuration has no effect if "ShouldProvisionNatGateway" is set to "false".
 Conditions:
   UseVpcName: !Not [!Equals [!Ref VpcName, ""]]
   UsePublic1Name: !Not [!Equals [!Ref PublicSubnet1Name, ""]]
