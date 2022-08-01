@@ -219,7 +219,7 @@ Resources:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
         - Key: "Name"
-          Value: !Join [ ": ", [ "Private RT AZ1", !Ref "AWS::StackName" ] ]
+          Value: !Join [ ": ", [ "Private RT AZ2", !Ref "AWS::StackName" ] ]
 
   Public1RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
