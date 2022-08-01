@@ -96,6 +96,7 @@ Conditions:
   UseHANatGatewayConfig: !Equals [!Ref ShouldConfigureHANatGateway, "true"]
   UseMultiPrivateRT: !And [!Condition UseNatGateway, !Condition UseHANatGatewayConfig]
   UseOnePrivateRT: !Not [!Condition UseMultiPrivateRT]
+  UseNatAndOnePrivateRT: !And [!Condition UseNatGateway, !Not [!Condition UseHANatGatewayConfig]]
 Resources:
   Vpc:
     Type: AWS::EC2::VPC
@@ -293,7 +294,7 @@ Resources:
           Value: !Ref "AWS::StackName"
   NatGatewaySingleRoute:
     Type: AWS::EC2::Route
-    Condition: UseNatGateway
+    Condition: UseNatAndOnePrivateRT
     DependsOn: Public1NatGateway
     Properties:
       RouteTableId: !Ref PrivateRouteTable
