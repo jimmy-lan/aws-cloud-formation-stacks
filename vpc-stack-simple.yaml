@@ -269,7 +269,7 @@ Resources:
     DependsOn: Public1NatGatewayIp
     Properties:
       SubnetId: !Ref PublicSubnet1
-      AllocationId: !Ref Public1NatGatewayIp
+      AllocationId: !GetAtt Public1NatGatewayIp.AllocationId
       Tags:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
@@ -287,8 +287,8 @@ Resources:
     Condition: UseMultiPrivateRT
     DependsOn: Public2NatGatewayIp
     Properties:
-      SubnetId: !Ref PublicSubnet1
-      AllocationId: !Ref Public1NatGatewayIp
+      SubnetId: !Ref PublicSubnet2
+      AllocationId: !GetAtt Public2NatGatewayIp.AllocationId
       Tags:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
