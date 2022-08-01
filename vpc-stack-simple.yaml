@@ -165,6 +165,8 @@ Resources:
       Tags:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
+        - Key: "Name"
+          Value: !Join [": ", ["IGW", !Ref VpcName]]
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
