@@ -307,7 +307,7 @@ Resources:
     Properties:
       RouteTableId: !Ref Private1RouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref Public1NatGateway
+      NatGatewayId: !Ref Public1NatGateway
   NatGatewayMultiRoutePrivate2:
     Type: AWS::EC2::Route
     Condition: UseMultiPrivateRT
@@ -315,4 +315,4 @@ Resources:
     Properties:
       RouteTableId: !Ref Private2RouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref Public2NatGateway
+      NatGatewayId: !Ref Public2NatGateway
