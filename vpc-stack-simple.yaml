@@ -179,7 +179,7 @@ Resources:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
         - Key: "Name"
-          Value: !Join ["-", ["Public RT", !Ref "AWS::StackId"]]
+          Value: !Join [": ", ["Public RT", !Ref "AWS::StackName"]]
   IGWRoute:
     Type: AWS::EC2::Route
     DependsOn: InternetGateway
@@ -196,7 +196,7 @@ Resources:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
         - Key: "Name"
-          Value: !Join [ "-", [ "Private RT", !Ref "AWS::StackId" ] ]
+          Value: !Join [ ": ", [ "Private RT", !Ref "AWS::StackName" ] ]
   Private1RouteTable:
     Type: AWS::EC2::RouteTable
     Condition: UseMultiPrivateRT
@@ -206,7 +206,7 @@ Resources:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
         - Key: "Name"
-          Value: !Join [ "-", [ "Private RT AZ1", !Ref "AWS::StackId" ] ]
+          Value: !Join [ ": ", [ "Private RT AZ1", !Ref "AWS::StackName" ] ]
   Private2RouteTable:
     Type: AWS::EC2::RouteTable
     Condition: UseMultiPrivateRT
@@ -216,7 +216,7 @@ Resources:
         - Key: "Stack"
           Value: !Ref "AWS::StackName"
         - Key: "Name"
-          Value: !Join [ "-", [ "Private RT AZ1", !Ref "AWS::StackId" ] ]
+          Value: !Join [ ": ", [ "Private RT AZ1", !Ref "AWS::StackName" ] ]
 
   Public1RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
