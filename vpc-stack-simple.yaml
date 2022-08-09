@@ -80,6 +80,7 @@ Parameters:
     Type: String
     Default: "false"
     AllowedValues:
+      - "-"
       - "true"
       - "false"
     Description: >-
@@ -89,9 +90,9 @@ Parameters:
     Type: String
     Default: ""
     AllowedValues:
+      - "-"
       - "true"
       - "false"
-      - ""
     Description: >-
       (Optional) When set to "true", one NAT gateway will be provisioned for every availability zone included
       in this VPC. Note: This configuration has no effect if "ShouldProvisionNatGateway" is set to "false".
@@ -99,6 +100,7 @@ Parameters:
     Type: String
     Default: "true"
     AllowedValues:
+      - "-"
       - "true"
       - "false"
     Description: >-
