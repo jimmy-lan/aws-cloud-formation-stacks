@@ -6,6 +6,34 @@ Metadata:
   Author: Jimmy Lan
   Version: "2022-07-31"
   Purpose: "VPC baseline"
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "VPC Settings"
+        Parameters:
+          - VpcName
+          - VpcCidr
+          - VpcInstanceTenancy
+          - VpcSubnetAzs
+      - Label:
+          default: "Public Subnet Settings"
+        Parameters:
+          - PublicSubnet1Name
+          - PublicSubnet1Cidr
+          - PublicSubnet2Name
+          - PublicSubnet2Cidr
+      - Label:
+          default: "Private Subnet Settings"
+        Parameters:
+          - PrivateSubnet1Name
+          - PrivateSubnet1Cidr
+          - PrivateSubnet2Name
+          - PrivateSubnet2Cidr
+      - Label:
+          default: "NAT Gateway Settings"
+        Parameters:
+          - ShouldProvisionNatGateway
+          - ShouldConfigureHANatGateway
 Parameters:
   VpcName:
     Type: String
