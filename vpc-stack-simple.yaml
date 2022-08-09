@@ -83,17 +83,27 @@ Parameters:
       - "true"
       - "false"
     Description: >-
-      *(Required) Determine whether one or more NAT gateway(s) should be provisioned for your VPC.
+      (Optional) Determine whether one or more NAT gateway(s) should be provisioned for your VPC.
       Select "true" if NAT gateways should be provisioned.
   ShouldConfigureHANatGateway:
     Type: String
-    Default: "false"
+    Default: ""
+    AllowedValues:
+      - "true"
+      - "false"
+      - ""
+    Description: >-
+      (Optional) When set to "true", one NAT gateway will be provisioned for every availability zone included
+      in this VPC. Note: This configuration has no effect if "ShouldProvisionNatGateway" is set to "false".
+  ShouldProvisionWebDefaultSG:
+    Type: String
+    Default: "true"
     AllowedValues:
       - "true"
       - "false"
     Description: >-
-      *(Required) When set to "true", one NAT gateway will be provisioned for every availability zone included
-      in this VPC. Note: This configuration has no effect if "ShouldProvisionNatGateway" is set to "false".
+      (Optional) Determine whether a default security group named "WebAccess" should be provisioned for quick
+      experiment purposes. Select "true" if "WebAccess" should be provisioned.
 Conditions:
   UseVpcName: !Not [ !Equals [ !Ref VpcName, "" ] ]
   UsePublic1Name: !Not [ !Equals [ !Ref PublicSubnet1Name, "" ] ]
@@ -102,6 +112,7 @@ Conditions:
   UsePrivate2Name: !Not [ !Equals [ !Ref PrivateSubnet2Name, "" ] ]
   UseNatGateway: !Equals [ !Ref ShouldProvisionNatGateway, "true" ]
   UseHANatGatewayConfig: !Equals [ !Ref ShouldConfigureHANatGateway, "true" ]
+  UseWebDefaultSG: !Equals [ !Ref ShouldProvisionWebDefaultSG, "true" ]
   UseMultiPrivateRT: !And [ !Condition UseNatGateway, !Condition UseHANatGatewayConfig ]
   UseOnePrivateRT: !Not [ !Condition UseMultiPrivateRT ]
   UseNatAndOnePrivateRT: !And [ !Condition UseNatGateway, !Not [ !Condition UseHANatGatewayConfig ] ]
@@ -344,3 +355,27 @@ Resources:
       RouteTableId: !Ref Private2RouteTable
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref Public2NatGateway
+
+  # Default security group
+  WebAccessDefaultSG:
+    Type: AWS::EC2::SecurityGroup
+    Condition: UseWebDefaultSG
+    DependsOn: Vpc
+    Properties:
+      GroupDescription: >-
+        Allow HTTP, ICMP, and SSH inbound access from anywhere and allow any outbound access.
+        This is a default security group created by the vpc-stack-simple.
+      VpcId: !Ref Vpc
+      SecurityGroupIngress:
+        - IpProtocol: "tcp"
+          FromPort: 80
+          ToPort: 80
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "icmp"
+          FromPort: -1
+          ToPort: -1
+          CidrIp: "0.0.0.0/0"
