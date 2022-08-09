@@ -78,7 +78,7 @@ Parameters:
     Description: "(Optional)"
   ShouldProvisionNatGateway:
     Type: String
-    Default: "false"
+    Default: "-"
     AllowedValues:
       - "-"
       - "true"
@@ -88,7 +88,7 @@ Parameters:
       Select "true" if NAT gateways should be provisioned.
   ShouldConfigureHANatGateway:
     Type: String
-    Default: ""
+    Default: "-"
     AllowedValues:
       - "-"
       - "true"
@@ -98,7 +98,7 @@ Parameters:
       in this VPC. Note: This configuration has no effect if "ShouldProvisionNatGateway" is set to "false".
   ShouldProvisionWebDefaultSG:
     Type: String
-    Default: "true"
+    Default: "-"
     AllowedValues:
       - "-"
       - "true"
