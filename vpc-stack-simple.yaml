@@ -40,7 +40,7 @@ Parameters:
     Description: "*(Required) CIDR block that this VPC uses."
   VpcSubnetCidrBits:
     Type: Number
-    Default: 8,
+    Default: 8
     Description: >-
       *(Required) The number of subnet bits for the CIDR. For example, specifying a value 8 for
       this parameter will create a CIDR with a mask of "/24". Subnet bits is the inverse of subnet mask.
