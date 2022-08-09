@@ -393,3 +393,6 @@ Resources:
           FromPort: -1
           ToPort: -1
           CidrIpv6: "::/0"
+      Tags:
+        - Key: "Name"
+          Value: "WebAccess"
