@@ -13,8 +13,9 @@ Metadata:
         Parameters:
           - VpcName
           - VpcCidr
-          - VpcInstanceTenancy
           - VpcSubnetAzs
+          - VpcSubnetCidrBits
+          - VpcInstanceTenancy
       - Label:
           default: "Subnet Settings"
         Parameters:
