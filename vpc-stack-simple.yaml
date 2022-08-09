@@ -126,7 +126,8 @@ Resources:
         - 0
         - !Cidr
           - !GetAtt Vpc.CidrBlock
-          - Fn::Length !Ref VpcSubnetAZs
+          # Fn::Length does not seem to work at the moment
+          - 16
           - !Ref VpcSubnetCidrBits
       MapPublicIpOnLaunch: true
       Tags:
@@ -143,7 +144,7 @@ Resources:
         - 1
         - !Cidr
           - !GetAtt Vpc.CidrBlock
-          - Fn::Length !Ref VpcSubnetAZs
+          - 16
           - !Ref VpcSubnetCidrBits
       MapPublicIpOnLaunch: false
       Tags:
@@ -160,7 +161,7 @@ Resources:
         - 2
         - !Cidr
           - !GetAtt Vpc.CidrBlock
-          - Fn::Length !Ref VpcSubnetAZs
+          - 16
           - !Ref VpcSubnetCidrBits
       MapPublicIpOnLaunch: true
       Tags:
@@ -177,7 +178,7 @@ Resources:
         - 3
         - !Cidr
           - !GetAtt Vpc.CidrBlock
-          - Fn::Length !Ref VpcSubnetAZs
+          - 16
           - !Ref VpcSubnetCidrBits
       MapPublicIpOnLaunch: false
       Tags:
